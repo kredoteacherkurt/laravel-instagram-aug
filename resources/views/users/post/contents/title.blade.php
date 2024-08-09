@@ -10,10 +10,10 @@
                 @endif
             </a>
         </div>
-        <div class="col ps-0"> 
+        <div class="col ps-0">
             {{-- name --}}
             <a href="#" class="text-decoration-none">
-                {{$post->user->name}}
+               shinchan
             </a>
         </div>
         <div class="col-auto">
