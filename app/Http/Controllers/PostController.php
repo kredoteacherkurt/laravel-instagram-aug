@@ -62,6 +62,8 @@ class PostController extends Controller
     public function show(Post $post)
     {
         //
+
+        return view('users.post.show')->with('post', $post);
     }
 
     /**
@@ -70,6 +72,19 @@ class PostController extends Controller
     public function edit(Post $post)
     {
         //
+        $all_categories = $this->category->all();
+        $selected_categories = [];
+
+        foreach ($post->category_posts as $category_post):
+            $selected_categories[] = $category_post->category_id;
+        endforeach;
+
+
+
+        return view('users.post.edit')
+            ->with('post', $post)
+            ->with('all_categories', $all_categories)
+            ->with('selected_categories', $selected_categories);
     }
 
     /**
@@ -78,6 +93,10 @@ class PostController extends Controller
     public function update(Request $request, Post $post)
     {
         //
+        if($request->image){
+            $post->image = 'data:image/' . $request->image->extension() . ';base64,' . base64_encode(file_get_contents($request->image)); //data:image/jpeg;base64,"converted image data to text"
+
+        }
     }
 
     /**
@@ -85,6 +104,10 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        // route model binding
+
+
+        $post->delete();
+        return back();
     }
 }

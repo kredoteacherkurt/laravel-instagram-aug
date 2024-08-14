@@ -7,10 +7,11 @@
     <div class="row">
         <div class="col-8">
             @forelse ($all_posts as $post)
-                <div class="card mb-4">
+                <div class="card mb-5">
                     {{-- title --}}
                         @include('users.post.contents.title')
                     {{-- body --}}
+                    @include('users.post.contents.body')
                 </div>
             @empty
                 <div class="text-center">
