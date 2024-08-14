@@ -30,9 +30,10 @@
 
         <div class="mb-3">
             <label for="description" class="form-label fw-bold text-capitalize">description</label>
-            <textarea name="description" id="description" rows="3" class="form-control" placeholder="Whats on your mind?"></textarea>
+            <textarea name="description" id="description" rows="3" class="form-control" placeholder="Whats on your mind?">{{$post->description}}</textarea>
         </div>
         <div class="mb-3">
+            <img src="{{$post->image}}" alt="" class="img-thumbnail d-block">
             <label for="image" class="form-label fw-bold text-capitalize">image</label>
             <input type="file" name="image" id="image" class="form-control">
         </div>

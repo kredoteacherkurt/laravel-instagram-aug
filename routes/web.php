@@ -20,6 +20,7 @@ Route::group(["middleware" => "auth"], function () {
         Route::delete('/destroy/{post}', [PostController::class, 'destroy'])->name('destroy');
         Route::get('/show/{post}', [PostController::class, 'show'])->name('show');
         Route::get('/edit/{post}', [PostController::class, 'edit'])->name('edit');
+        Route::get('/edit/{post}', [PostController::class, 'edit'])->name('edit');
 
 
     });

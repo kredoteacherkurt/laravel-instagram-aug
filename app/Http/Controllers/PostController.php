@@ -93,10 +93,22 @@ class PostController extends Controller
     public function update(Request $request, Post $post)
     {
         //
-        if($request->image){
-            $post->image = 'data:image/' . $request->image->extension() . ';base64,' . base64_encode(file_get_contents($request->image)); //data:image/jpeg;base64,"converted image data to text"
 
+        $post->description = $request->description;
+        if ($request->image) {
+            $post->image = 'data:image/' . $request->image->extension() . ';base64,' . base64_encode(file_get_contents($request->image));
         }
+        $post->save(); // eloquent
+
+        $post->category_posts()->delete();
+
+        foreach ($request->category as $category_id):
+            $category_post[] = ["category_id" => $category_id];
+        endforeach;
+
+        $post->category_posts()->createMany($category_post);
+
+        return redirect()->route('post.show', $post);
     }
 
     /**
