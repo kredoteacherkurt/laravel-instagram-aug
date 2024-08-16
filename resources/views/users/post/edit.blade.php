@@ -4,8 +4,9 @@
 
 @section('content')
 
-    <form action="" enctype="multipart/form-data" method="post">
+    <form action="{{route('post.update',$post)}}" enctype="multipart/form-data" method="post">
         @csrf
+        @method('PATCH')
         <div class="mb-3">
             <label for="category" class="form-label d-block fw-bold">
                 Category <span class="text-muted fw-normal">(Up to 3)</span>

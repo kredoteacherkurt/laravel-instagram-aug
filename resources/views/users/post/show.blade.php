@@ -4,6 +4,17 @@
 
 
 @section('content')
+    <style>
+        .col-4
+        {
+            overflow-y: scroll;
+        }
+        .card-body
+        {
+            position: absolute;
+            top: 65px;
+        }
+    </style>
     <div class="row border shadow">
         <div class="col p-0 border-end">
             <img src="{{ $post->image }}" alt="post id {{ $post->id }}" class="w-100">
@@ -100,6 +111,53 @@
                     <p class="text-muted small">
                        {{$post->created_at->diffForHumans() }}
                     </p>
+
+                    <div class="mt-3">
+                        {{-- All comments here --}}
+                        @if ($post->comments->isNotEmpty())
+                            <ul class="list-group mt-2">
+                                @foreach ($post->comments as $comment)
+                                    <li class="list-group-item border-0 p-0 mb-2">
+                                        <a href="#" class="text-decoration-none text-dark fw-bold">{{ $comment->user->name }}</a>
+                                        &nbsp;
+                                        <p class="d-inline fw-light">{{ $comment->body }}</p>
+
+                                        <form action="#" method="post">
+                                            @csrf
+                                            @method('DELETE')
+
+                                            <span class="text-uppercase text-muted xsmall">
+                                                {{ date('M d, Y', strtotime($comment->created_at)) }}
+                                            </span>
+
+                                            {{-- If the auth user is THE OWNER OF THE COMMENT, show a delete button --}}
+                                            @if (Auth::user()->id === $comment->user->id) 
+                                                &middot;
+                                                <button class="border-0 bg-transparent text-danger p-0 xsmall">Delete</button>
+                                            @endif
+                                            
+                                        </form>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        @endif
+
+                        <form action="{{ route('comment.store', $post->id) }}" method="post">
+                            @csrf
+                    
+                            <div class="input-group">
+                                <textarea name="comment_body{{ $post->id }}" rows="1" class="form-control form-control-sm"
+                                    placeholder="Add a comment...">{{ old('comment_body'.$post->id) }}</textarea>
+                                <button class="btn btn-outline-secondary btn-sm">Post</button>
+                            </div>
+                            {{-- Error --}}
+                            @error('comment_body' . $post->id)
+                                <div class="text-danger small">{{ $message }}</div>
+                            @enderror
+                        </form>
+                    </div>
+
+                    
                 </div>
             </div>
         </div>

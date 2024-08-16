@@ -44,4 +44,6 @@
         {{ date('M d, Y', strtotime($post->created_at)) }}
     </p>
 
+    @include('users.post.contents.comments')
+
 </div>
