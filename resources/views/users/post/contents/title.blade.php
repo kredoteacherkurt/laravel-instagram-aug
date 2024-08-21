@@ -22,7 +22,7 @@
 
                 @if (Auth::user()->id === $post->user->id)
                     <div class="dropdown-menu">
-                        <a href="{{route('post.edit',$post)}}" class="dropdown-item">
+                        <a href="{{ route('post.edit', $post) }}" class="dropdown-item">
                             <i class="fa-regular fa-pen-to-square"></i> Edit
                         </a>
 
@@ -34,12 +34,22 @@
                     @include('users.post.contents.modals.delete')
                 @else
                     <div class="dropdown-menu">
-                        <form action="{{route('follow.store',$post->user->id)}}" method="post">
-                            @csrf
-                            <button type="submit" class="dropdown-item text-primary">
-                                Follow
-                            </button>
-                        </form>
+                        @if ($post->user->isFollowed())
+                            <form action="{{route('follow.destroy',$post->user->id)}}" method="post">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="dropdown-item text-danger">
+                                    Unfollow
+                                </button>
+                            </form>
+                        @else
+                            <form action="{{ route('follow.store', $post->user->id) }}" method="post">
+                                @csrf
+                                <button type="submit" class="dropdown-item text-primary">
+                                    Follow
+                                </button>
+                            </form>
+                        @endif
                     </div>
                 @endif
             </div>

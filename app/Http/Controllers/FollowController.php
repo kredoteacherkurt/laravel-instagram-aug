@@ -26,5 +26,9 @@ class FollowController extends Controller
     public function destroy($following_id)
     {
         //
+        $this->follow->where('follower_id',auth()->id())->where('following_id', $following_id)->delete();
+
+        return back();
+
     }
 }

@@ -36,6 +36,8 @@ Route::group(["middleware" => "auth"], function () {
         Route::get('/show/{user_id}',[ProfileController::class,'show'])->name('show');
         Route::get('/edit',[ProfileController::class,'edit'])->name('edit');
         Route::patch('/update',[ProfileController::class,'update'])->name('update');
+        Route::get('/followers/{user_id}',[ProfileController::class,'followers'])->name('followers');
+        Route::get('/following/{user_id}',[ProfileController::class,'following'])->name('following');
     });
 
     Route::group(["prefix"=>"like"],function(){
@@ -45,5 +47,6 @@ Route::group(["middleware" => "auth"], function () {
 
     Route::group(['prefix'=>"follow", "as"=>"follow."],function(){
         Route::post('/follow/{following_id}',[FollowController::class,'store'])->name('store');
+        Route::delete('/unfollow/{following_id}',[FollowController::class,'destroy'])->name('destroy');
     });
 });
