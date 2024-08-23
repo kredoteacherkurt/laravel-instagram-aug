@@ -65,7 +65,7 @@
                             </li>
                             {{-- create page --}}
                             <li class="nav-item">
-                                <a href="{{route('post.create')}}" class="nav-link">
+                                <a href="{{ route('post.create') }}" class="nav-link">
                                     <i class="fa-solid fa-circle-plus text-dark icon-sm"></i>
                                 </a>
                             </li>
@@ -74,16 +74,28 @@
                                 <a id="navbarDropdown" class="nav-link" href="#" role="button"
                                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     @if (Auth::user()->avatar)
-                                        <img src="{{Auth::user()->avatar}}" alt="" class="rounded-circle avatar-sm">
+                                        <img src="{{ Auth::user()->avatar }}" alt=""
+                                            class="rounded-circle avatar-sm">
                                     @else
                                         <i class="fa-solid fa-circle-user text-dark icon-sm"></i>
                                     @endif
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <a href="{{route('profile.show',Auth::user()->id)}}" class="dropdown-item">
+
+                                    @if (Auth::user()->role_id == 1)
+                                        <a href="{{route('admin.users')}}" class="dropdown-item">
+                                            <i class="fa-solid fa-user-gear"></i>Admin
+                                        </a>
+                                        <hr class="dropdown-divider">
+                                    @endif
+
+                                    <a href="{{ route('profile.show', Auth::user()->id) }}" class="dropdown-item">
                                         <i class="fa-solid fa-user"></i> Profile
                                     </a>
+
+
+
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                         onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -104,7 +116,18 @@
         <main class="py-5">
             <div class="container">
                 <div class="row justify-content-center">
-                    {{-- <div class="col-3"> Admin menu </div> --}}
+
+                    {{-- * means wildcard --}}
+                    {{-- soft deletes --}}
+                    @if( request()->is('admin/*') )
+                    <div class="col-3">
+                        <ul class="list-group">
+                            <li class="list-group-item">Users</li>
+                            <li class="list-group-item">Posts</li>
+                            <li class="list-group-item">Categories</li>
+                        </ul>
+                    </div>
+                    @endif
                     <div class="col-9">
                         @yield('content')
                     </div>
